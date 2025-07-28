@@ -332,13 +332,20 @@
                 font-size: 2.5rem;
             }
             #countdown {
-                gap: 10px;
+                gap: 8px;
             }
             #countdown div {
-                min-width: 70px;
+                min-width: 0; /* Allows boxes to shrink freely */
+    padding: 10px 5px; /* Reduces the padding inside the box */
+    flex-grow: 1; /* Allows boxes to flexibly take up space */
             }
             #countdown span {
-                font-size: 1.8rem;
+                font-size: 1.8rem; /* Keeps the number size */
+            }
+
+            #countdown p {
+                font-size: 0.7rem; /* Makes the text (Days, Hours) smaller */
+                letter-spacing: 0; /* Removes extra spacing to save room */
             }
         }
 
