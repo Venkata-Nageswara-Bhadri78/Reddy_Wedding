@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wedding Invitation | Reddemma & Sunil Kumar</title>
+    <style>
+        /* Google Fonts for elegant typography */
+        @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Montserrat:wght@400;500;700&display=swap');
+
+        :root {
+            --primary-color: #800020; /* Deep Maroon */
+            --secondary-color: #FFD700; /* Gold */
+            --text-color: #333333;
+            --bg-color: #FFF8E1; /* Creamy White */
+            --font-heading: 'Dancing Script', cursive;
+            --font-body: 'Montserrat', sans-serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-body);
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        /* Floral Pattern Background */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('https://www.transparenttextures.com/patterns/gplay.png');
+            opacity: 0.1;
+            z-index: -1;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* --- Animations --- */
+        .reveal {
+            position: relative;
+            transform: translateY(100px);
+            opacity: 0;
+            transition: 1s all ease;
+        }
+
+        .reveal.active {
+            transform: translateY(0);
+            opacity: 1;
+        }
+        
+        /* --- Header & Hero Section --- */
+        header {
+            text-align: center;
+            padding: 80px 20px;
+            background: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url('https://www.toptal.com/designers/subtlepatterns/uploads/sakura.png');
+            color: white;
+            border-bottom: 5px solid var(--secondary-color);
+        }
+
+        header h2 {
+            font-family: var(--font-body);
+            font-weight: 500;
+            font-size: 1.5rem;
+            letter-spacing: 2px;
+        }
+
+        header h1 {
+            font-family: var(--font-heading);
+            font-size: 4.5rem;
+            margin: 10px 0;
+            color: var(--secondary-color);
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+
+        /* --- Countdown Timer --- */
+        #countdown {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        #countdown div {
+            background: rgba(128, 0, 32, 0.7);
+            padding: 15px;
+            border-radius: 10px;
+            border: 1px solid var(--secondary-color);
+            min-width: 90px;
+        }
+
+        #countdown span {
+            display: block;
+            font-size: 2.5rem;
+            font-weight: bold;
+        }
+
+        #countdown p {
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* --- Navigation Buttons Section --- */
+        .nav-buttons {
+            text-align: center;
+            padding: 30px 0;
+            background-color: var(--primary-color);
+        }
+
+        .nav-buttons .btn {
+            background-color: var(--secondary-color);
+            color: var(--primary-color);
+            padding: 12px 25px;
+            text-decoration: none;
+            border-radius: 25px;
+            margin: 5px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            display: inline-block;
+        }
+        
+        .nav-buttons .btn:hover {
+            background-color: var(--bg-color);
+            transform: translateY(-3px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+
+        /* --- Section Styling --- */
+        section {
+            padding: 60px 20px;
+            text-align: center;
+        }
+
+        .section-title {
+            font-family: var(--font-heading);
+            font-size: 3rem;
+            color: var(--primary-color);
+            margin-bottom: 30px;
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            width: 80px;
+            height: 3px;
+            background: var(--secondary-color);
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        /* --- Invitation Card Section --- */
+        .invitation-card {
+            background: white;
+            padding: 40px;
+            border: 2px solid var(--secondary-color);
+            border-radius: 15px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .invitation-card p {
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+            line-height: 1.8;
+        }
+
+        .invitation-card .names {
+            font-family: var(--font-heading);
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            margin: 20px 0;
+        }
+        
+        .invitation-card .family-blessings {
+            font-style: italic;
+            color: #555;
+            font-size: 1rem;
+        }
+
+        /* --- Bride & Groom Section --- */
+        .couple-container {
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            gap: 50px;
+            flex-wrap: wrap;
+            margin-top: 40px;
+        }
+
+        .person-card {
+            max-width: 300px;
+        }
+
+        .person-card img {
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 5px solid var(--secondary-color);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .person-card h3 {
+            font-family: var(--font-heading);
+            font-size: 2.2rem;
+            color: var(--primary-color);
+            margin-top: 15px;
+        }
+
+        .person-card p {
+            font-size: 1rem;
+            margin-top: 5px;
+        }
+
+        /* --- Elders Section --- */
+        .elders-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+            max-width: 900px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .elder-card {
+            text-align: center;
+        }
+
+        .elder-card img {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid var(--primary-color);
+        }
+
+        .elder-card h4 {
+            font-size: 1.2rem;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+
+        /* --- When & Where Section --- */
+        #when-where {
+            background-color: #fff;
+        }
+        
+        .event-details {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            flex-wrap: wrap;
+            margin-top: 40px;
+        }
+        
+        .detail-box {
+            padding: 30px;
+            border: 2px dashed var(--primary-color);
+            border-radius: 10px;
+            min-width: 280px;
+            transition: all 0.3s ease;
+        }
+        
+        .detail-box:hover {
+             transform: translateY(-5px);
+             box-shadow: 0 8px 15px rgba(128,0,32,0.1);
+        }
+
+        .detail-box h3 {
+            color: var(--primary-color);
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+        }
+        
+        .detail-box .map-btn {
+            display: inline-block;
+            margin-top: 15px;
+            padding: 10px 20px;
+            background-color: var(--primary-color);
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+        }
+        
+        .detail-box .map-btn:hover {
+            background-color: var(--secondary-color);
+            color: var(--primary-color);
+        }
+        
+        /* --- Footer --- */
+        footer {
+            background: var(--primary-color);
+            color: var(--bg-color);
+            text-align: center;
+            padding: 40px 20px;
+        }
+        
+        footer h3 {
+             font-family: var(--font-heading);
+             font-size: 2rem;
+             color: var(--secondary-color);
+             margin-bottom: 15px;
+        }
+
+        /* --- Responsive Design --- */
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 3.5rem;
+            }
+            .section-title {
+                font-size: 2.5rem;
+            }
+            #countdown {
+                gap: 10px;
+            }
+            #countdown div {
+                min-width: 70px;
+            }
+            #countdown span {
+                font-size: 1.8rem;
+            }
+        }
+
+        /* --- Together Photo Section --- */
+        #together-photo {
+            padding-top: 20px;
+            padding-bottom: 60px;
+        }
+
+        .photo-frame {
+            max-width: 500px;
+            margin: 20px auto 0 auto;
+            padding: 15px;
+            background: white;
+            border: 3px solid var(--secondary-color); /* Gold border */
+            border-radius: 10px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+        }
+
+        .photo-frame img {
+            width: 100%;
+            display: block;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h2>WE ARE GETTING MARRIED</h2>
+        <h1>Reddemma & Sunil Kumar</h1>
+        <p>31st July 2025</p>
+
+        <div id="countdown">
+            <div><span id="days">00</span><p>Days</p></div>
+            <div><span id="hours">00</span><p>Hours</p></div>
+            <div><span id="minutes">00</span><p>Minutes</p></div>
+            <div><span id="seconds">00</span><p>Seconds</p></div>
+        </div>
+    </header>
+
+    <div class="nav-buttons">
+        <a href="events.html" class="btn">View Wedding Events</a>
+    </div>
+    <main>
+        <section id="together-photo" class="container">
+            <div class="reveal">
+                <h2 class="section-title">Together Forever</h2>
+                <div class="photo-frame">
+                     <img src="images/togetherImage.jpeg" alt="Photo of Reddemma and Sunil Kumar">
+                </div>
+            </div>
+        </section>
+
+        <section id="invitation" class="container">
+            <div class="invitation-card reveal">
+                <h2 class="section-title">Join Us</h2>
+                <p>We, Reddemma and Sunil Kumar, cordially invite you to be a part of our new beginning as we exchange vows and embark on a wonderful journey together.</p>
+                <p class="names">
+                    Bodanapu Reddemma
+                    <br>&<br>
+                    Narasapuram Sunil Kumar
+                </p>
+                <p>We request the pleasure of your company to celebrate this joyous occasion and shower us with your blessings.</p>
+                <p class="family-blessings">
+                    With blessings from our beloved parents:<br>
+                    Smt. Bodanapu Vijayamma & Sri. Bodanapu Jagannadam (late)<br>
+                    Smt. Narasapuram Subbamma & Sri. Narasapuram Subbanna
+                </p>
+            </div>
+        </section>
+
+        <section id="couple" class="container">
+             <div class="couple-container">
+                <div class="person-card reveal">
+                    <img src="images/reddy.jpeg" alt="Bride's Photo">
+                    <h3>Bodanapu Reddemma</h3>
+                    <p>Daughter of<br>Smt. Bodanapu Vijayamma &<br>Sri. Bodanapu Jagannadam (late)</p>
+                </div>
+                <div class="person-card reveal">
+                    <img src="images/sunil.jpeg" alt="Groom's Photo">
+                    <h3>Narasapuram Sunil Kumar</h3>
+                    <p>Son of<br>Smt. Narasapuram Subbamma &<br>Sri. Narasapuram Subbanna</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="elders" class="container">
+            <h2 class="section-title reveal">With Best Compliments From</h2>
+            <p class="reveal" style="max-width: 700px; margin: -20px auto 40px auto;">Our pillars of strength, who are conducting this wedding with love and joy.</p>
+            <div class="elders-grid">
+                <div class="elder-card reveal">
+                    <!-- <img src="example.jpeg" alt="Bhadri Sreenivasulu"> -->
+                    <h4>Bhadri Sreenivasulu</h4>
+                </div>
+                <div class="elder-card reveal">
+                    <!-- <img src="example.jpeg" alt="Bhadri Prameela"> -->
+                    <h4>Bhadri Prameela</h4>
+                </div>
+                <div class="elder-card reveal">
+                    <!-- <img src="example.jpeg" alt="Bhadri Venkatesu"> -->
+                    <h4>Bhadri Venkatesu</h4>
+                </div>
+                 <div class="elder-card reveal">
+                    <!-- <img src="example.jpeg" alt="Bhadri Ratna Kumari"> -->
+                    <h4>Bhadri Ratna Kumari</h4>
+                </div>
+            </div>
+        </section>
+
+        <section id="when-where">
+            <div class="container">
+                <h2 class="section-title reveal">The Big Day</h2>
+                <div class="event-details">
+                    <div class="detail-box reveal">
+                        <h3>Date & Time</h3>
+                        <p>Thursday, 31st July 2025</p>
+                        <p><strong>Sumuhurtham:</strong> 3:40 AM to 4:40 AM</p>
+                    </div>
+                    <div class="detail-box reveal">
+                        <h3>Venue</h3>
+                        <p>City Convention Hall</p>
+                        <p>Mannur Road, Rajampeta</p>
+                        <a href="https://maps.app.goo.gl/74JX6TJZ28DgWF5T9?g_st=aw" target="_blank" class="map-btn">View on Google Maps</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <section id="our-story" style="display:none;"><h2>Our Story (Coming Soon)</h2></section>
+        <section id="events" style="display:none;"><h2>Events (Coming Soon)</h2></section>
+        <section id="gallery" style="display:none;"><h2>Gallery (Coming Soon)</h2></section>
+        <section id="contact" style="display:none;"><h2>Contact & RSVP (Coming Soon)</h2></section>
+        
+    </main>
+    
+    <footer>
+        <h3>Need Help?</h3>
+        <p>Feel free to reach out to us for any queries.</p>
+        <p><strong>Bride's Side:</strong> 9490390760, 9502226553</p>
+        <p><strong>Groom's Side:</strong> 9000807546</p>
+        <br>
+        <p>Made with ❤️ for my sister</p>
+    </footer>
+
+    <script>
+        // Set the date we're counting down to
+        // Month is 0-based, so July is 6
+        const countDownDate = new Date("Jul 31, 2025 03:40:00").getTime();
+
+        // Update the count down every 1 second
+        const x = setInterval(function() {
+            const now = new Date().getTime();
+            const distance = countDownDate - now;
+
+            // Time calculations for days, hours, minutes and seconds
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            // Display the result in the respective elements
+            document.getElementById("days").innerText = days.toString().padStart(2, '0');
+            document.getElementById("hours").innerText = hours.toString().padStart(2, '0');
+            document.getElementById("minutes").innerText = minutes.toString().padStart(2, '0');
+            document.getElementById("seconds").innerText = seconds.toString().padStart(2, '0');
+
+            // If the count down is finished, write some text
+            if (distance < 0) {
+                clearInterval(x);
+                document.getElementById("countdown").innerHTML = "<h2>The Wedding Day is Here!</h2>";
+            }
+        }, 1000);
+        
+        // --- Scroll Reveal Animation ---
+        function reveal() {
+            const reveals = document.querySelectorAll('.reveal');
+            for (let i = 0; i < reveals.length; i++) {
+                const windowHeight = window.innerHeight;
+                const elementTop = reveals[i].getBoundingClientRect().top;
+                const elementVisible = 150; // Distance from bottom of screen to trigger animation
+
+                if (elementTop < windowHeight - elementVisible) {
+                    reveals[i].classList.add('active');
+                } else {
+                    reveals[i].classList.remove('active');
+                }
+            }
+        }
+
+        window.addEventListener('scroll', reveal);
+        // To reveal elements already in view on load
+        reveal();
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Photo Gallery | Reddemma & Sunil Kumar</title>
+    <style>
+        /* Google Fonts for elegant typography */
+        @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Montserrat:wght@400;500;700&display=swap');
+
+        :root {
+            --primary-color: #800020; /* Deep Maroon */
+            --secondary-color: #FFD700; /* Gold */
+            --text-color: #333333;
+            --bg-color: #FFF8E1; /* Creamy White */
+            --font-heading: 'Dancing Script', cursive;
+            --font-body: 'Montserrat', sans-serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-body);
+            background-color: var(--bg-color);
+            color: var(--text-color);
+        }
+        
+        /* --- Header --- */
+        .gallery-header {
+            padding: 30px 20px;
+            background-color: var(--primary-color);
+            color: white;
+            text-align: center;
+            position: relative;
+        }
+
+        .gallery-header h1 {
+            font-family: var(--font-heading);
+            font-size: 3rem;
+            color: var(--secondary-color);
+        }
+
+        .back-btn {
+            position: absolute;
+            top: 50%;
+            left: 20px;
+            transform: translateY(-50%);
+            background-color: var(--secondary-color);
+            color: var(--primary-color);
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 25px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+
+        .back-btn:hover {
+            background-color: var(--bg-color);
+        }
+
+        /* --- Masonry Photo Grid --- */
+        .photo-grid {
+            padding: 40px;
+            column-count: 4; /* Number of columns */
+            column-gap: 15px;
+        }
+
+        .photo-item {
+            position: relative;
+            margin-bottom: 15px; /* Spacing between rows */
+            overflow: hidden;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            cursor: pointer;
+            break-inside: avoid; /* Prevents items from breaking across columns */
+        }
+
+        .photo-item img {
+            width: 100%;
+            height: auto;
+            display: block;
+            transition: transform 0.4s ease;
+        }
+        
+        .photo-item:hover img {
+            transform: scale(1.05);
+        }
+
+        /* --- New Download Button --- */
+        .download-btn {
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            width: 40px;
+            height: 40px;
+            background-color: rgba(0, 0, 0, 0.6);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-decoration: none;
+            opacity: 0; /* Hidden by default */
+            transform: translateY(10px);
+            transition: opacity 0.3s, transform 0.3s;
+            z-index: 2; /* Make sure it's above the image */
+        }
+        
+        .photo-item:hover .download-btn {
+            opacity: 1; /* Show on hover */
+            transform: translateY(0);
+        }
+        
+        .download-btn svg {
+            width: 20px;
+            height: 20px;
+            fill: white;
+        }
+
+        /* --- Lightbox Modal --- */
+        .lightbox {
+            position: fixed;
+            z-index: 1000;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            display: none; 
+            justify-content: center;
+            align-items: center;
+            animation: fadeIn 0.5s;
+        }
+        
+        .lightbox.active {
+            display: flex;
+        }
+
+        .lightbox img {
+            max-width: 90%;
+            max-height: 80%;
+            border: 5px solid var(--secondary-color);
+            border-radius: 5px;
+        }
+        
+        .lightbox .close-btn {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            color: white;
+            font-size: 40px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+        
+        .lightbox .close-btn:hover {
+            color: var(--secondary-color);
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* --- Responsive Design --- */
+        @media (max-width: 1200px) {
+            .photo-grid { column-count: 3; }
+        }
+        @media (max-width: 800px) {
+            .photo-grid { column-count: 2; }
+        }
+        @media (max-width: 600px) {
+            .gallery-header h1 { font-size: 2rem; }
+            .back-btn {
+                position: static;
+                transform: none;
+                display: block;
+                width: 150px;
+                margin: 15px auto 0;
+            }
+            .photo-grid {
+                column-count: 1;
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="gallery-header">
+        <a href="index.html" class="back-btn">← Back to Invitation</a>
+        <h1>Our Wedding Gallery</h1>
+    </header>
+
+    <main>
+        <div class="photo-grid" id="photo-grid">
+            </div>
+    </main>
+
+    <div class="lightbox" id="lightbox">
+        <span class="close-btn" id="close-lightbox">&times;</span>
+        <img src="" alt="Enlarged wedding photo" id="lightbox-img">
+    </div>
+
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+
+            // --- STEP 1: DEFINE YOUR IMAGE FOLDER AND FILENAMES ---
+            // Place all your images in a folder named "gallery_images".
+            // Then, list the filenames of your images in the array below.
+            const imageFolder = 'gallery_images/';
+            const imageFiles = [
+                'example-tall.jpg',     // Replace with your photo names
+                'example-wide.jpg',
+                'example-square.jpg',
+                'another-photo.png',
+                'bride-groom.jpeg',
+                'family-group.jpg',
+                'ceremony-shot.webp',
+                'friends-fun.jpg'
+                // Add as many photo filenames as you want here
+            ];
+
+
+            // --- STEP 2: JAVASCRIPT TO BUILD THE GALLERY (No need to edit below this line) ---
+            const photoGrid = document.getElementById('photo-grid');
+
+            imageFiles.forEach(filename => {
+                const photoPath = imageFolder + filename;
+
+                // Create photo item container
+                const photoItem = document.createElement('div');
+                photoItem.className = 'photo-item';
+
+                // Create the image element
+                const img = document.createElement('img');
+                img.src = photoPath;
+                img.alt = 'Wedding photo';
+                img.setAttribute('data-enlarge', 'true'); // Custom attribute to trigger lightbox
+
+                // Create the download button with SVG icon
+                const downloadLink = document.createElement('a');
+                downloadLink.href = photoPath;
+                downloadLink.className = 'download-btn';
+                downloadLink.setAttribute('download', filename); // This makes the file downloadable
+                downloadLink.innerHTML = `<svg viewBox="0 0 24 24"><path d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96zM17 13l-5 5-5-5h3V9h4v4h3z"/></svg>`;
+
+                // Append image and button to the item
+                photoItem.appendChild(img);
+                photoItem.appendChild(downloadLink);
+                
+                // Append the complete item to the grid
+                photoGrid.appendChild(photoItem);
+            });
+
+
+            // --- LIGHTBOX LOGIC ---
+            const lightbox = document.getElementById('lightbox');
+            const lightboxImg = document.getElementById('lightbox-img');
+            const closeBtn = document.getElementById('close-lightbox');
+
+            photoGrid.addEventListener('click', (e) => {
+                // Check if the clicked element or its parent is a photo meant to be enlarged
+                const targetImg = e.target.closest('[data-enlarge="true"]');
+                if (targetImg) {
+                    lightboxImg.src = targetImg.src;
+                    lightbox.classList.add('active');
+                }
+            });
+
+            function closeLightbox() {
+                lightbox.classList.remove('active');
+            }
+
+d
+            closeBtn.addEventListener('click', closeLightbox);
+            lightbox.addEventListener('click', (e) => {
+                if (e.target === lightbox) {
+                    closeLightbox();
+                }
+            });
+        });
+    </script>
+</body>
+</html>
